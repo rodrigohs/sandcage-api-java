@@ -1,0 +1,70 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+
+struct regAmigos {
+	char nombre [50];
+	int edad;
+	char sexo;
+	char estado;
+};
+void adicionarAmigos(){
+	FILE* ptr;
+	regAmigos reg;
+	do{
+		cout<<"Introduzca el nombre: ";
+		gets(reg.nombre);
+	} while(strlen(reg.nombre)==0);
+	do{
+		cout<<"introduzca la edad: ";
+		cin>>reg.edad;
+	}while(reg.edad<1|| reg.edad>120);
+	do{
+		cout<<"introduzca el sexo: ";
+		cin>>reg.sexo;
+	}while(reg.sexo!='F'&&reg.sexo!='f'&&reg.sexo!='M'&&reg.sexo!='m');
+	reg.estado='A';
+	ptr=fopen("Amigos.dat","ab");
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);
+}
+void leerAmigos(){
+	FILE*ptr;
+	regAmigos reg;
+	ptr=fopen("Amigos.dat","rb");
+	if(ptr!= NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while (feof(ptr)==false){
+			cout<<reg.nombre<<" "<<reg.edad<<" "<<reg.sexo;
+			cout<<" "<<endl;
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}else{ cout<<"El archivo no existe joven";}
+}
+void reprote(){
+	regAmigos vecF[100];
+	regAmigos vecM[100];
+	FILE*ptr;
+	regAmigos reg;
+	ptr=fopen("Amigos.dat","rb");
+	if(ptr==NULL){
+		if(reg.sexo='F'){
+		
+			fread(&reg,sizeof(reg),1,ptr);
+			vecF[]=reg; 
+		}else{
+			if(reg.sexo='M'){
+					vecM[]=fread(&reg,sizeof(reg),1,ptr);
+				}
+			}
+		}
+	}
+}
+void main(){
+//adicionarAmigos();
+leerAmigos();
+getch();
+}
